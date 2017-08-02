@@ -1,0 +1,72 @@
+<template>
+  <div id="studentStatusChangeExamination_topBar" class="topBarDiv am-btn-group">
+    <button id="topBarButton" class="am-btn am-btn-success" @click="hrefClick(1)">教研组管理</button>
+    <button class="am-btn am-btn-success" @click="hrefClick(2)">学生管理</button>
+    <button class="am-btn am-btn-success" @click="hrefClick(3)">教师管理</button>
+    <button class="am-btn am-btn-success btn-active" @click="hrefClick(4)">学生异动管理</button>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'studentStatusChangeExamination_topBar',
+    data () {
+      return {
+        authorityList: ''
+      }
+    },
+    mounted: function() {
+      try{
+        var buttons = document.getElementById("studentStatusChangeExamination_topBar").getElementsByTagName("button");
+        this.authorityList = JSON.parse(sessionStorage.getItem("authorityList"));
+//        获取权限列表
+        for (var i = 0; i < buttons.length; i++) {
+//          隐藏导航按钮
+          buttons[i].style.display = "none";
+        }
+        for (var i = 0; i < this.authorityList.length; i++) {
+//          根据权限显示导航栏按钮
+          if(this.authorityList[i] == "24"){
+            buttons[0].style.display = "block";
+          }else if(this.authorityList[i] == "23"){
+            buttons[1].style.display = "block";
+          }else if(this.authorityList[i] == "26"){
+            buttons[2].style.display = "block";
+          }else if(this.authorityList[i] == "64"){
+            buttons[3].style.display = "block";
+          }
+        }
+      }catch(e){}
+    },
+//    权限控制导航显隐
+    methods: {
+      hrefClick: function (num) {
+        if (num == 1) {
+          location.href = "#/eduAdmin/person/eduResGroupMgmt"
+        } else if (num == 2) {
+          location.href = "#/eduAdmin/person/eduAdminManageStd"
+        } else if (num == 3) {
+          location.href = "#/eduAdmin/person/eduAdminManageTch"
+        } else if (num == 4) {
+          location.href = "#/eduAdmin/person/eduAdminManageClass"
+        }
+      }
+//      路由跳转
+    }
+  }
+</script>
+
+<style scoped>
+  html{
+
+  }
+  #topBarButton{
+    margin-left: 5rem;
+  }
+
+  @media screen and (max-width: 1025px) {
+    html {
+    }
+  }
+</style>
+
